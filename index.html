@@ -7,18 +7,23 @@
 <script type="text/javascript">
 	var app = angular.module("app",[]);
 
-	app.controller("appController", function($scope){
+	app.run(["$rootScope",function($rootScope){
+		$rootScope.name = "Master";
+		alert("Running");
+	}]);
+
+	app.controller("appController1",["$scope",function($scope){
 		$scope.name = "DiVANK";
-	});
+	}]);
 
 	app.controller("appController2", function($scope){
 		$scope.name = "Rahul";
 	});
 
 </script>
-<body ng-app="app" ng-controller="appController">
-	<div ng-controller="appController2 as o2">
-		sum is {{o2.name}}
+<body ng-app="app">
+	<div >
+		sum is {{name}}
 	</div>
 	sum is {{name}}
 </body>
