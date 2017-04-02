@@ -7,24 +7,47 @@
 <script type="text/javascript">
 	var app = angular.module("app",[]);
 
-	app.run(["$rootScope",function($rootScope){
+	app.run(["$rootScope","$http",function($rootScope,$http){
 		$rootScope.name = "Master";
-		alert("Running");
+		$rootScope.status = "NA";
+		$http({
+			url: "https://www.w3schools.com/jquery/demo_test.asp",
+			method: "GET"
+		}).then(function(resp){
+			$rootScope.status = "Success";
+		},function(error){
+			$rootScope.status = "Error";
+			console.log(error);
+		})
+
 	}]);
 
 	app.controller("appController1",["$scope",function($scope){
-		$scope.name = "DiVANK";
+		$scope.a = 10;
+		$scope.b = 20;
+
+		$scope.calculateSum = function(){
+			$scope.a =  $scope.a * $scope.a;
+			$scope.b =  $scope.b * $scope.b;
+		};
 	}]);
 
-	app.controller("appController2", function($scope){
-		$scope.name = "Rahul";
-	});
-
 </script>
-<body ng-app="app">
-	<div >
-		sum is {{name}}
+<body ng-app="app"> 
+	<div ng-controller="appController1">
+		a = {{a}}<br>
+		b = {{b}}<br>
+		<br>
+		a = <span ng-bind="a"></span><br>
+		a = <span ng-bind="b"></span><br>
+		<br>
+		a = <input type="text" name="atext" ng-model="a"><br>
+		b = <input type="text" name="btext" ng-model="b"><br>
+		<br>
+		
+		oneway a = {{::a}}
+		<button ng-click="calculateSum()"></button>
 	</div>
-	sum is {{name}}
+	Status {{status}}
 </body>
 </html>
