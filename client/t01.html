@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Angular Test</title>
+    <script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="c01.js"></script>
+</head>
+
+<body ng-app="app" ng-controller="appController">
+    <div>
+        <br> a = {{a}}
+        <br> b = {{b}}
+        <br> a = <span ng-bind="a"></span>
+        <br> a = <span ng-bind="b"></span>
+        <br>
+        <br> a =
+        <input type="text" name="atext" ng-model="a">
+        <br> b =
+        <input type="text" name="btext" ng-model="b">
+        <br>
+        <br> Sum = {{sum}}
+        <br>
+        <button ng-click="calculateSum()">Calculate Sum</button>
+        <br>
+    </div>
+    Status = {{status}}
+</body>
+
+</html>

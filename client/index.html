@@ -1,53 +1,72 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Angular Test</title>
-	<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+    <title>Angular Test</title>
+    <script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
 </head>
 <script type="text/javascript">
-	var app = angular.module("app",[]);
 
-	app.run(["$rootScope","$http",function($rootScope,$http){
-		$rootScope.name = "Master";
-		$rootScope.status = "NA";
-		$http({
-			url: "http://127.0.0.1:4467/sum?a=10&b=20",
-			method: "GET"
-		}).then(function(resp){
-			$rootScope.status = "Success";
-		},function(error){
-			$rootScope.status = "Error";
-			console.log(error);
-		})
 
-	}]);
+// app.run(["$rootScope", "$http", function($rootScope, $http) {
+//     $rootScope.name = "Master";
+//     $rootScope.status = "NA";
+//     $rootScope.sum = calculateSum();
 
-	app.controller("appController1",["$scope",function($scope){
-		$scope.a = 10;
-		$scope.b = 20;
+//     $http({
+//         url: "http://127.0.0.1:4467/sum?a=10&b=20",
+//         method: "GET"
+//     }).then(function(resp) {
+//         $rootScope.status = "Success";
+//         $rootScope.sum = parseInt(resp.data);
+//     }, function(error) {
+//         $rootScope.status = "Error";
+//         $rootScope.sum = -1;
+//         console.log(error);
+//     })
 
-		$scope.calculateSum = function(){
-			$scope.a =  $scope.a * $scope.a;
-			$scope.b =  $scope.b * $scope.b;
-		};
-	}]);
+// }]);
 
+var app = angular.module("app", []);
+app.controller("appController", ["$scope", "$http", function($scope,$http) {
+    $scope.a = 10;
+    $scope.b = 20;
+    $scope.sum = $scope.a + $scope.b;
+    $scope.status = "Hello Status";
+
+    $scope.calculateSum = function() {
+        $http({
+            url: "http://127.0.0.1:4467/sum?a="+ $scope.a +"&b=" + $scope.b ,
+            method: "GET"
+        }).then(function(resp) {
+            $scope.status = "Success";
+            $scope.sum = parseInt(resp.data);
+        }, function(error) {
+            $scope.status = "Error";
+            $scope.sum = -1;
+            console.log(error);
+        })
+    };
+}]);
 </script>
-<body ng-app="app"> 
-	<div ng-controller="appController1">
-		a = {{a}}<br>
-		b = {{b}}<br>
-		<br>
-		a = <span ng-bind="a"></span><br>
-		a = <span ng-bind="b"></span><br>
-		<br>
-		a = <input type="text" name="atext" ng-model="a"><br>
-		b = <input type="text" name="btext" ng-model="b"><br>
-		<br>
-		
-		oneway a = {{::a}}
-		<button ng-click="calculateSum()"></button>
-	</div>
-	Status {{status}}
+
+<body ng-app="app" ng-controller="appController">
+    <div >
+        a = {{a}}
+        <br> b = {{b}}
+        <br> a = <span ng-bind="a"></span>
+        <br> a = <span ng-bind="b"></span>
+        <br>
+        <br> a =
+        <input type="text" name="atext" ng-model="a">
+        <br> b =
+        <input type="text" name="btext" ng-model="b">
+        <br>
+        <br> Sum = {{sum}}
+        <br>
+        <button ng-click="calculateSum()"></button>
+    </div>
+    Status = {{status}}
 </body>
+
 </html>
